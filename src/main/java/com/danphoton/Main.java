@@ -1,15 +1,73 @@
 package com.danphoton;
 
+import com.danphoton.io.Read;
 import com.danphoton.structures.graph.BFSResult;
 import com.danphoton.structures.graph.DijkstraResult;
 import com.danphoton.structures.graph.Graph;
 import com.danphoton.structures.heap.MinHeap;
+import com.danphoton.structures.set.UnionFind;
+
+import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        //bfs();
-        //minHeap();
+        bfs();
+        minHeap();
         dijkstra();
+        //ben();
+        kruskal();
+    }
+
+    public static void kruskal() {
+        Graph<Integer> g = new Graph<>();
+        g.addEdge(0, 1, 2);
+        g.addEdge(0, 2, 6);
+        g.addEdge(0, 3, 1);
+        g.addEdge(1, 2, 3);
+        g.addEdge(1, 3, 5);
+        g.addEdge(2, 3, 4);
+
+        g.addEdge(4, 5, 3);
+        g.addEdge(4, 6, 1);
+        g.addEdge(5, 6, 2);
+        Graph<Integer> mst = g.Kruskal();
+        System.out.println(mst.toString());
+        System.out.println(mst.getTotalWeight());
+    }
+
+    public static void unionFindTest() {
+        UnionFind<Integer> u = new UnionFind<>();
+
+        u.makeSet(1);
+        u.makeSet(2);
+        u.makeSet(3);
+        u.makeSet(4);
+        u.makeSet(5);
+        System.out.println(u.getNumberOfPartitions());
+        u.union(1, 2);
+        System.out.println(u.getNumberOfPartitions());
+        u.union(3, 4);
+        u.union(4, 5);
+        System.out.println(u.getNumberOfPartitions());
+        u.printRoots();
+        System.out.println(u.toString());
+        u.union(5, 1);
+        u.printRoots();
+        System.out.println(u.toString());
+    }
+
+    public static void ben() {
+        Graph<Integer> g = Read.readGraph("input/input2.txt");
+        if (g == null) {
+            System.out.println("File not found");
+            return;
+        }
+        System.out.println(g.getNumEdges());
+        System.out.println(g.getNumVertices());
+        DijkstraResult<Integer> result = g.Dijkstra(1);
+        System.out.println(result.toString());
+        DijkstraResult<Integer> result2 = g.Dijkstra(5);
+        System.out.println(result2.toString());
     }
 
     public static void bfs() {
